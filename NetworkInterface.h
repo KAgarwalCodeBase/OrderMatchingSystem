@@ -1,17 +1,17 @@
-#ifndef NETWORKINTERFACE_H
-#define NETWORKINTERFACE_H
+#ifndef NETWORK_INTERFACE_H
+#define NETWORK_INTERFACE_H
 
 #include "MatchingEngine.h"
-#include <netinet/in.h>
+#include "Order.h"
+#include <string>
 
 class NetworkInterface {
 private:
-    int socketFd;
-    sockaddr_in serverAddr;
-
+    int socket_fd; // Network socket file descriptor
 public:
-    NetworkInterface(int port);
-    void receiveOrders(MatchingEngine& engine);
+    explicit NetworkInterface(int port); // Constructor
+    void receiveOrders(MatchingEngine& engine); // Receives and processes orders
+    Order parseOrder(const std::string& orderStr); // Parses an order string into an Order object
 };
 
-#endif // NETWORKINTERFACE_H
+#endif // NETWORK_INTERFACE_H

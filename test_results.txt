@@ -1,0 +1,27 @@
+Order: 1 B 100.50 10 169348127 2001 0
+Response: Order processed successfully.
+
+Order: 2 S 100.50 10 169348128 2002 0
+Response: Order processed successfully.
+
+Order: 3 B 100.50 0 169348127 2001 0
+Response: Error processing order: Quantity must be greater than zero.
+
+Order: 4 S 100.123456789 10 169348128 2002 0
+Response: Order processed successfully.
+
+Order: 5 B 100.50 10 0 2003 0
+Response: Order processed successfully.
+
+Order: 6 S 100.50 10 9999999999 2004 0
+Response: Error processing order: isMarketOrder must be 0 or 1.
+
+Order: 7 S 100.50 5 169348129 2005 0
+Response: Order processed successfully.
+
+Order: 8 S 100.50 5 169348130 2006 0
+Response: Order processed successfully.
+
+Order: 9 B 100.50 10 169348131 2007 0
+Response: Order processed successfully.
+

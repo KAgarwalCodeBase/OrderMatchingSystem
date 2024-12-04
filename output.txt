@@ -1,6 +1,8 @@
 Starting the Order Matching System...
-NetworkInterface: Started receiving orders.
 Initializing network interface on port 8080...
+Timestamp received: 169348127
+Order parsed successfully: ID=1, Side=B, Price=100.500000, Quantity=10, Timestamp=169348127, TraderID=2001, MarketOrder=0
+Order added to book: ID = 1, Side = B, Price = 100.500000, Quantity = 10
 =========================================
 Order ID:      1
 Type:          B
@@ -8,64 +10,81 @@ Price:         100.50
 Quantity:      10
 Action:        Added to Book
 Matched With:  None
-Latency:       43 microseconds
+Latency:       13 microseconds
 -----------------------------------------
-NetworkInterface: Order received and passed to MatchingEngine.
+Timestamp received: 169348128
+Order parsed successfully: ID=2, Side=S, Price=100.500000, Quantity=10, Timestamp=169348128, TraderID=2002, MarketOrder=0
+Matched Order: 2 with Order ID 1 for quantity: 10
 =========================================
 Order ID:      2
 Type:          S
 Price:         100.50
 Quantity:      0
 Action:        Matched
-Matched With:  1
-Latency:       0 microseconds
+Matched With:  Order ID 1
+Latency:       9 microseconds
 -----------------------------------------
-=========================================
-Order ID:      2
-Type:          S
-Price:         100.50
-Quantity:      0
-Action:        Matched
-Matched With:  1
-Latency:       538 microseconds
------------------------------------------
-NetworkInterface: Order received and passed to MatchingEngine.
-=========================================
-Order ID:      3
-Type:          S
-Price:         101.00
-Quantity:      7
-Action:        Added to Book
-Matched With:  None
-Latency:       3 microseconds
------------------------------------------
-NetworkInterface: Order received and passed to MatchingEngine.
+Timestamp received: 169348127
+Validation Error: Quantity must be greater than zero. Received: 0
+Timestamp received: 169348128
+Order parsed successfully: ID=4, Side=S, Price=100.123457, Quantity=10, Timestamp=169348128, TraderID=2002, MarketOrder=0
+Order added to book: ID = 4, Side = S, Price = 100.123457, Quantity = 10
 =========================================
 Order ID:      4
-Type:          B
-Price:         101.00
-Quantity:      0
-Action:        Matched
-Matched With:  3
-Latency:       0 microseconds
------------------------------------------
-=========================================
-Order ID:      4
-Type:          B
-Price:         101.00
-Quantity:      0
-Action:        Matched
-Matched With:  3
-Latency:       17 microseconds
------------------------------------------
-NetworkInterface: Order received and passed to MatchingEngine.
-=========================================
-Order ID:      6
-Type:          B
-Price:         -50.00
+Type:          S
+Price:         100.12
 Quantity:      10
 Action:        Added to Book
 Matched With:  None
-Latency:       1 microseconds
+Latency:       8 microseconds
 -----------------------------------------
-NetworkInterface: Order received and passed to MatchingEngine.
+Timestamp received: 0
+Order parsed successfully: ID=5, Side=B, Price=100.500000, Quantity=10, Timestamp=0, TraderID=2003, MarketOrder=0
+Order added to book: ID = 5, Side = B, Price = 100.500000, Quantity = 10
+=========================================
+Order ID:      5
+Type:          B
+Price:         100.50
+Quantity:      10
+Action:        Added to Book
+Matched With:  None
+Latency:       9 microseconds
+-----------------------------------------
+Timestamp received: 2147483647
+Validation Error: isMarketOrder must be 0 or 1. Received: 21896
+Timestamp received: 169348129
+Order parsed successfully: ID=7, Side=S, Price=100.500000, Quantity=5, Timestamp=169348129, TraderID=2005, MarketOrder=0
+Matched Order: 7 with Order ID 1 for quantity: 5
+=========================================
+Order ID:      7
+Type:          S
+Price:         100.50
+Quantity:      0
+Action:        Matched
+Matched With:  Order ID 1
+Latency:       7 microseconds
+-----------------------------------------
+Timestamp received: 169348130
+Order parsed successfully: ID=8, Side=S, Price=100.500000, Quantity=5, Timestamp=169348130, TraderID=2006, MarketOrder=0
+Matched Order: 8 with Order ID 1 for quantity: 5
+=========================================
+Order ID:      8
+Type:          S
+Price:         100.50
+Quantity:      0
+Action:        Matched
+Matched With:  Order ID 1
+Latency:       6 microseconds
+-----------------------------------------
+Timestamp received: 169348131
+Order parsed successfully: ID=9, Side=B, Price=100.500000, Quantity=10, Timestamp=169348131, TraderID=2007, MarketOrder=0
+Order added to book: ID = 9, Side = B, Price = 100.500000, Quantity = 10
+=========================================
+Order ID:      9
+Type:          B
+Price:         100.50
+Quantity:      10
+Action:        Added to Book
+Matched With:  None
+Latency:       6 microseconds
+-----------------------------------------
