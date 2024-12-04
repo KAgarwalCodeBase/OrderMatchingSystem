@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstring>
 #include <unistd.h>
+#include "Logger.h"
 
 NetworkInterface::NetworkInterface(int port) {
     socketFd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -11,6 +12,8 @@ NetworkInterface::NetworkInterface(int port) {
     serverAddr.sin_port = htons(port);
 
     bind(socketFd, (const sockaddr*)&serverAddr, sizeof(serverAddr));
+
+    Logger::getInstance().log("NetworkInterface: Started receiving orders.");
 }
 
 void NetworkInterface::receiveOrders(MatchingEngine& engine) {
@@ -31,6 +34,10 @@ void NetworkInterface::receiveOrders(MatchingEngine& engine) {
         Order order(orderId, side, price, quantity, timestamp, traderId, isMarketOrder);
         engine.processOrder(order);
 
+        Logger::getInstance().log("NetworkInterface: Order received and passed to MatchingEngine.");
+        
         sendto(socketFd, "Order Received", 14, 0, (const sockaddr*)&clientAddr, len);
     }
+
+    Logger::getInstance().log("NetworkInterface: Stopped receiving orders.");
 }

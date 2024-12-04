@@ -1,0 +1,71 @@
+Starting the Order Matching System...
+NetworkInterface: Started receiving orders.
+Initializing network interface on port 8080...
+=========================================
+Order ID:      1
+Type:          B
+Price:         100.50
+Quantity:      10
+Action:        Added to Book
+Matched With:  None
+Latency:       43 microseconds
+-----------------------------------------
+NetworkInterface: Order received and passed to MatchingEngine.
+=========================================
+Order ID:      2
+Type:          S
+Price:         100.50
+Quantity:      0
+Action:        Matched
+Matched With:  1
+Latency:       0 microseconds
+-----------------------------------------
+=========================================
+Order ID:      2
+Type:          S
+Price:         100.50
+Quantity:      0
+Action:        Matched
+Matched With:  1
+Latency:       538 microseconds
+-----------------------------------------
+NetworkInterface: Order received and passed to MatchingEngine.
+=========================================
+Order ID:      3
+Type:          S
+Price:         101.00
+Quantity:      7
+Action:        Added to Book
+Matched With:  None
+Latency:       3 microseconds
+-----------------------------------------
+NetworkInterface: Order received and passed to MatchingEngine.
+=========================================
+Order ID:      4
+Type:          B
+Price:         101.00
+Quantity:      0
+Action:        Matched
+Matched With:  3
+Latency:       0 microseconds
+-----------------------------------------
+=========================================
+Order ID:      4
+Type:          B
+Price:         101.00
+Quantity:      0
+Action:        Matched
+Matched With:  3
+Latency:       17 microseconds
+-----------------------------------------
+NetworkInterface: Order received and passed to MatchingEngine.
+=========================================
+Order ID:      6
+Type:          B
+Price:         -50.00
+Quantity:      10
+Action:        Added to Book
+Matched With:  None
+Latency:       1 microseconds
+-----------------------------------------
+NetworkInterface: Order received and passed to MatchingEngine.
