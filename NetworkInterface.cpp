@@ -1,12 +1,14 @@
 #include "NetworkInterface.h"
 
-// Constructor
+// Constructor: Initializes the socket and binds it to the given port
 NetworkInterface::NetworkInterface(int port) : port(port), isRunning(true) {
+    // Create a UDP socket
     socket_fd = socket(AF_INET, SOCK_DGRAM, 0);
     if (socket_fd < 0) {
         throw std::runtime_error("Failed to create socket.");
     }
 
+    // Bind the socket to the specified port
     sockaddr_in serverAddr{};
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
@@ -18,55 +20,67 @@ NetworkInterface::NetworkInterface(int port) : port(port), isRunning(true) {
     }
 }
 
-// Destructor to clean up resources
+// Destructor: Cleans up the socket
 NetworkInterface::~NetworkInterface() {
     close(socket_fd);
 }
 
 // Prepares the socket for communication (used for initialization)
 void NetworkInterface::prepareSocket() {
-    
-    // Check if the socket is valid
-    if (socket_fd <= 0)
+    if (socket_fd <= 0) {
         throw std::runtime_error("Invalid socket descriptor.");
+    }
 }
 
-// Graceful shutdown
+// Gracefully stops the network interface
 void NetworkInterface::stop() {
     isRunning = false;
 }
 
-// Receives and processes incoming orders
+// Receives and processes incoming orders from clients
 void NetworkInterface::receiveOrders(MatchingEngine& engine) {
-    std::vector<char> buffer(1024); // Dynamic buffer for larger input
+    std::vector<char> buffer(1024);  // Buffer to store incoming data
     Logger& logger = Logger::getInstance();
 
     while (isRunning) {
         sockaddr_in clientAddr;
         socklen_t addrLen = sizeof(clientAddr);
 
+        // Receive data from the client
         int bytesReceived = recvfrom(socket_fd, buffer.data(), buffer.size(), 0, (struct sockaddr*)&clientAddr, &addrLen);
         if (bytesReceived < 0) {
             if (isRunning) {
                 logger.log("Error: Failed to receive data.");
             }
-            continue; // Skip processing on error
+            continue;  // Skip processing on error
         }
 
-        buffer[bytesReceived] = '\0'; // Null-terminate the string
+        buffer[bytesReceived] = '\0';  // Null-terminate the received string
         std::string orderStr(buffer.data());
 
+        // Check for shutdown command
+        if (orderStr == "shutdown") {
+            logger.log("Shutdown command received. Stopping server...");
+            isRunning = false;
+            break;
+        }
+
         try {
+            // Parse and process the order
             auto order = parseOrder(orderStr);
             engine.processOrder(order);
 
+            // Send a success response back to the client
             std::string response = "Order processed successfully.";
             sendto(socket_fd, response.c_str(), response.length(), 0, (struct sockaddr*)&clientAddr, addrLen);
         } catch (const std::exception& e) {
+            // Send an error response to the client
             std::string response = "Error processing order: " + std::string(e.what());
             sendto(socket_fd, response.c_str(), response.length(), 0, (struct sockaddr*)&clientAddr, addrLen);
         }
     }
+
+    logger.log("Server has stopped.");
 }
 
 // Parses an order string into an Order object
@@ -79,12 +93,13 @@ Order NetworkInterface::parseOrder(const std::string& orderStr) {
     double price;
     int isMarketOrder;
 
+    // Parse the order string
     if (!(ss >> orderId >> side >> price >> quantity >> timestamp >> traderId >> isMarketOrder)) {
         logger.log("Parsing Error: Malformed order string: " + orderStr);
         throw std::invalid_argument("Malformed order string");
     }
 
-    // Validate order
+    // Validate the parsed order
     validateOrder(orderId, side, price, quantity, timestamp, traderId, isMarketOrder, logger);
 
     logger.log("Order parsed successfully: ID=" + std::to_string(orderId) +
@@ -98,7 +113,7 @@ Order NetworkInterface::parseOrder(const std::string& orderStr) {
     return Order(orderId, side, price, quantity, timestamp, traderId, isMarketOrder == 1);
 }
 
-// Validates order fields
+// Validates order fields to ensure correctness
 void NetworkInterface::validateOrder(int orderId, char side, double price, int quantity, int timestamp, int traderId, int isMarketOrder, Logger& logger) {
     std::vector<std::string> errors;
 
@@ -125,10 +140,10 @@ void NetworkInterface::validateOrder(int orderId, char side, double price, int q
         errors.push_back("isMarketOrder must be 0 or 1. Received: " + std::to_string(isMarketOrder));
     }
 
-    // Add timestamp logging for debugging (not an error here)
+    // Log timestamp for debugging
     logger.log("Timestamp received: " + std::to_string(timestamp));
 
-    // If there are errors, throw a single exception
+    // If there are errors, log and throw an exception
     if (!errors.empty()) {
         std::string errorMsg = "Validation errors: ";
         for (const auto& error : errors) {

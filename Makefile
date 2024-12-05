@@ -35,7 +35,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 # Clean Build Files
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) *.txt
 
 # Run the Application
 run: $(TARGET)

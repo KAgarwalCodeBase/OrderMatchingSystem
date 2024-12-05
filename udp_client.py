@@ -38,28 +38,69 @@ def generate_test_cases():
         "7 S 100.50 5 169348129 2005 0",   # FIFO matching test
         "8 S 100.50 5 169348130 2006 0",   # FIFO matching test
         "9 B 100.50 10 169348131 2007 0",  # FIFO matching test
+
+        # Valid Orders
+        "10 B 101.00 15 169348132 2008 0",  # Valid buy order
+        "11 S 99.50 20 169348133 2009 0",   # Valid sell order
+        "12 B 100.00 5 169348134 2010 1",   # Market buy order
+        "13 S 100.00 5 169348135 2011 1",   # Market sell order
+
+        # Invalid Orders
+        "14 B -100.00 10 169348136 2012 0",  # Negative price
+        "15 S 100.00 -10 169348137 2013 0",  # Negative quantity
+        "16 B 100.00 10 169348138 2014 2",   # Invalid isMarketOrder value
+        "17 S 100.00 10 -169348139 2015 0",  # Negative timestamp
+        "18 B",                              # Incomplete order
+        "19 B 100.50 5 169348140 2016",      # Missing isMarketOrder field
+
+        # Edge Cases
+        "20 B 100.00 0 169348141 2017 0",    # Zero quantity (edge case)
+        "21 S 0.00 10 169348142 2018 0",     # Zero price (edge case)
+        "22 B 100.123456789 1 169348143 2019 0",  # High-precision price
+        "23 S 9999999999.99 10 169348144 2020 0", # Very large price
+        "24 B 100.00 999999 169348145 2021 0",    # Very large quantity
     ]
 
 
-def run_test_cases(output_file):
+def run_test_cases():
     """Run a set of test cases to validate the matching engine."""
     print("\n--- Running Test Cases ---\n")
     test_orders = generate_test_cases()
 
-    with open(output_file, "w") as f:
-        for order in test_orders:
-            print(f"Testing order: {order}")
-            response = send_order(order)
-            f.write(f"Order: {order}\nResponse: {response}\n\n")
+    for order in test_orders:
+        print(f"Testing order: {order}")
+        send_order(order)
 
     print("\n--- Test Cases Completed ---")
 
+
+def interactive_mode():
+    """Allow the user to place additional orders interactively."""
+    print("\n--- Enter Interactive Mode ---")
+    print("Type your orders in the format: <orderId> <side> <price> <quantity> <timestamp> <traderId> <isMarketOrder>")
+    print("Type 'exit' to quit and shut down the server.\n")
+
+    while True:
+        try:
+            user_order = input("Enter order: ")
+            if user_order.lower() == "exit":
+                print("Shutting down the server. Goodbye!")
+                send_order("shutdown")  # Send the shutdown command to the server
+                break
+            send_order(user_order)
+        except KeyboardInterrupt:
+            # Handle Ctrl+C gracefully
+            print("\nExiting interactive mode. Goodbye!")
+            break
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
 # Main Function
 if __name__ == "__main__":
     print("UDP Client for Low Latency Order Matching System\n")
 
-    output_file = "test_results.txt"  # File to store results
-    run_test_cases(output_file)
+    # Run the predefined test cases
+    run_test_cases()
 
-    print(f"Test results have been written to {output_file}.")
+    # Enter interactive mode for additional orders
+    interactive_mode()
