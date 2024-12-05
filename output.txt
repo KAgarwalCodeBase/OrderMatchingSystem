@@ -10,7 +10,7 @@ Price:         100.50
 Quantity:      10
 Action:        Added to Book
 Matched With:  None
-Latency:       13 microseconds
+Latency:       468 microseconds
 -----------------------------------------
 Timestamp received: 169348128
 Order parsed successfully: ID=2, Side=S, Price=100.500000, Quantity=10, Timestamp=169348128, TraderID=2002, MarketOrder=0
@@ -25,7 +25,9 @@ Matched With:  Order ID 1
 Latency:       9 microseconds
 -----------------------------------------
 Timestamp received: 169348127
-Validation Error: Quantity must be greater than zero. Received: 0
+Validation errors: 
+- Quantity must be greater than zero. Received: 0
+- isMarketOrder must be 0 or 1. Received: 2
 Timestamp received: 169348128
 Order parsed successfully: ID=4, Side=S, Price=100.123457, Quantity=10, Timestamp=169348128, TraderID=2002, MarketOrder=0
 Order added to book: ID = 4, Side = S, Price = 100.123457, Quantity = 10
@@ -36,7 +38,7 @@ Price:         100.12
 Quantity:      10
 Action:        Added to Book
 Matched With:  None
-Latency:       8 microseconds
+Latency:       13 microseconds
 -----------------------------------------
 Timestamp received: 0
 Order parsed successfully: ID=5, Side=B, Price=100.500000, Quantity=10, Timestamp=0, TraderID=2003, MarketOrder=0
@@ -48,10 +50,9 @@ Price:         100.50
 Quantity:      10
 Action:        Added to Book
 Matched With:  None
-Latency:       9 microseconds
+Latency:       7 microseconds
 -----------------------------------------
-Timestamp received: 2147483647
-Validation Error: isMarketOrder must be 0 or 1. Received: 21896
+Parsing Error: Malformed order string: 6 S 100.50 10 9999999999 2004 0
 Timestamp received: 169348129
 Order parsed successfully: ID=7, Side=S, Price=100.500000, Quantity=5, Timestamp=169348129, TraderID=2005, MarketOrder=0
 Matched Order: 7 with Order ID 1 for quantity: 5
@@ -62,7 +63,7 @@ Price:         100.50
 Quantity:      0
 Action:        Matched
 Matched With:  Order ID 1
-Latency:       7 microseconds
+Latency:       5 microseconds
 -----------------------------------------
 Timestamp received: 169348130
 Order parsed successfully: ID=8, Side=S, Price=100.500000, Quantity=5, Timestamp=169348130, TraderID=2006, MarketOrder=0
@@ -74,7 +75,7 @@ Price:         100.50
 Quantity:      0
 Action:        Matched
 Matched With:  Order ID 1
-Latency:       6 microseconds
+Latency:       7 microseconds
 -----------------------------------------
 Timestamp received: 169348131
 Order parsed successfully: ID=9, Side=B, Price=100.500000, Quantity=10, Timestamp=169348131, TraderID=2007, MarketOrder=0
@@ -86,5 +87,5 @@ Price:         100.50
 Quantity:      10
 Action:        Added to Book
 Matched With:  None
-Latency:       6 microseconds
+Latency:       7 microseconds
 -----------------------------------------

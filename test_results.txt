@@ -4,8 +4,10 @@ Response: Order processed successfully.
 Order: 2 S 100.50 10 169348128 2002 0
 Response: Order processed successfully.
 
-Order: 3 B 100.50 0 169348127 2001 0
-Response: Error processing order: Quantity must be greater than zero.
+Order: 3 B 100.50 0 169348127 2001 2
+Response: Error processing order: Validation errors: 
+- Quantity must be greater than zero. Received: 0
+- isMarketOrder must be 0 or 1. Received: 2
 
 Order: 4 S 100.123456789 10 169348128 2002 0
 Response: Order processed successfully.
@@ -14,7 +16,7 @@ Order: 5 B 100.50 10 0 2003 0
 Response: Order processed successfully.
 
 Order: 6 S 100.50 10 9999999999 2004 0
-Response: Error processing order: isMarketOrder must be 0 or 1.
+Response: Error processing order: Malformed order string
 
 Order: 7 S 100.50 5 169348129 2005 0
 Response: Order processed successfully.

@@ -31,7 +31,7 @@ def generate_test_cases():
         "2 S 100.50 10 169348128 2002 0",  # Exact match (Sell)
 
         # Edge Cases
-        "3 B 100.50 0 169348127 2001 0",   # Zero quantity
+        "3 B 100.50 0 169348127 2001 2",   # Zero quantity
         "4 S 100.123456789 10 169348128 2002 0", # High precision price
         "5 B 100.50 10 0 2003 0",          # Very old timestamp
         "6 S 100.50 10 9999999999 2004 0", # Far-future timestamp
