@@ -17,17 +17,21 @@
 
 class NetworkInterface {
 private:
-    int socket_fd; // Network socket file descriptor
-    int port;      // Port the socket is bound to
-    std::atomic<bool> isRunning; // Flag to control receiveOrders loop
+    int socket_fd;                  // Network socket file descriptor
+    int port;                       // Port the socket is bound to
+    std::atomic<bool> isRunning;    // Flag to control receiveOrders loop
+
+    // Validates order fields
     void validateOrder(int orderId, char side, double price, int quantity, int timestamp, int traderId, int isMarketOrder, Logger& logger);
 
 public:
-    explicit NetworkInterface(int port);
-    ~NetworkInterface();
-    void receiveOrders(MatchingEngine& engine);
-    void stop();
-    Order parseOrder(const std::string& orderStr);
+    explicit NetworkInterface(int port); // Constructor to initialize with a port
+    ~NetworkInterface();                 // Destructor to clean up resources
+
+    void receiveOrders(MatchingEngine& engine); // Receives and processes incoming orders
+    void stop();                               // Gracefully stops the network interface
+    Order parseOrder(const std::string& orderStr); // Parses an order string into an Order object
+    void prepareSocket();                      // Prepares the socket for communication
 };
 
 #endif // NETWORK_INTERFACE_H

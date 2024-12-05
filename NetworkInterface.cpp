@@ -23,6 +23,14 @@ NetworkInterface::~NetworkInterface() {
     close(socket_fd);
 }
 
+// Prepares the socket for communication (used for initialization)
+void NetworkInterface::prepareSocket() {
+    
+    // Check if the socket is valid
+    if (socket_fd <= 0)
+        throw std::runtime_error("Invalid socket descriptor.");
+}
+
 // Graceful shutdown
 void NetworkInterface::stop() {
     isRunning = false;
@@ -89,7 +97,6 @@ Order NetworkInterface::parseOrder(const std::string& orderStr) {
 
     return Order(orderId, side, price, quantity, timestamp, traderId, isMarketOrder == 1);
 }
-
 
 // Validates order fields
 void NetworkInterface::validateOrder(int orderId, char side, double price, int quantity, int timestamp, int traderId, int isMarketOrder, Logger& logger) {

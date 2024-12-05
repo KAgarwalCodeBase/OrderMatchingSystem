@@ -4,6 +4,10 @@
 
 void MatchingEngine::processOrder(Order order) {
     Logger& logger = Logger::getInstance();
+
+    if (order.orderId == 0)
+        return;
+
     auto start = std::chrono::high_resolution_clock::now();
 
     bool matched = false;
